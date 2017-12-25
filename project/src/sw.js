@@ -28,3 +28,14 @@ workboxSW.router.registerRoute(/(.*)articles(.*)\.(?:png|gif|jpg)/,
         cacheableResponse: {statuses: [0, 200]}
     })
 );
+
+const articleHandler = workboxSW.strategies.networkFirst({
+    cacheName: 'articles-cache',
+    cacheExpiration: {
+        maxEntries: 50
+    }
+});
+
+workboxSW.router.registerRoute('/pages/article*.html', args => {
+    return articleHandler.handle(args);
+});
