@@ -18,3 +18,13 @@ importScripts('workbox-sw.dev.v2.0.0.js');
 
 const workboxSW = new WorkboxSW();
 workboxSW.precache([]);
+
+workboxSW.router.registerRoute(/(.*)articles(.*)\.(?:png|gif|jpg)/,
+    workboxSW.strategies.cacheFirst({
+        cacheName: 'images-cache',
+        cacheExpiration: {
+            maxEntries: 50
+        },
+        cacheableResponse: {statuses: [0, 200]}
+    })
+);
